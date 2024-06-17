@@ -10,7 +10,7 @@
     <groupId>org.Team2Project</groupId>
     <artifactId>CameAlone</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+<!--    <packaging>war</packaging>-->
     <name>CameAlone</name>
     <description>CameAlone</description>
     <properties>
@@ -76,6 +76,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope> <!-- 내장 톰캣을 컴파일 타임에는 포함하지 않음 -->
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
@@ -120,6 +126,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
+            <!-- Spring Boot Maven Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
