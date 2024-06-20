@@ -2,12 +2,12 @@ package org.team2project.camealone.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -39,16 +39,6 @@ public class WebConfig implements WebMvcConfigurer {
                         .addResourceLocations("classpath:/static/")
                         .setCachePeriod(3600)
                         .resourceChain(true);
-            }
-
-            @Override
-            public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-                configurer.favorPathExtension(true)
-                        .ignoreAcceptHeader(true)
-                        .defaultContentType(MediaType.APPLICATION_JSON)
-                        .mediaType("html", MediaType.TEXT_HTML)
-                        .mediaType("css", MediaType.valueOf("text/css"))
-                        .mediaType("js", MediaType.valueOf("application/javascript"));
             }
         };
     }
