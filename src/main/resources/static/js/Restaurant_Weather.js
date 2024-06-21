@@ -310,7 +310,7 @@ function renderRestaurantInfo(restaurants) {
 
         const img = document.createElement("img");
         img.src = placeDetails.photos
-            ? placeDetails.photos[0].getUrl({maxWidth: 80, maxHeight: 80})
+            ? placeDetails.photos[0].getUrl({ maxWidth: 80, maxHeight: 80 })
             : noImageUrl;
         restaurantInfo.appendChild(img);
 
@@ -328,19 +328,19 @@ function renderRestaurantInfo(restaurants) {
         const rating = document.createElement("p");
         rating.classList.add("star-rating");
         rating.textContent = `${placeDetails.rating ? placeDetails.rating.toFixed(1) : "N/A"
-        }`;
+            }`;
         details.appendChild(rating);
 
         const reviewCount = document.createElement("p");
         reviewCount.textContent = `리뷰 수: ${placeDetails.user_ratings_total ? placeDetails.user_ratings_total : "N/A"
-        }`;
+            }`;
         details.appendChild(reviewCount);
 
         const phone = document.createElement("p");
         phone.textContent = `연락처: ${placeDetails.formatted_phone_number
             ? placeDetails.formatted_phone_number
             : "N/A"
-        }`;
+            }`;
         details.appendChild(phone);
 
         restaurantInfo.appendChild(details);
@@ -355,15 +355,25 @@ function renderRestaurantInfo(restaurants) {
             const mapUrl = `https://www.google.com/maps/search/?api=1&query=${name}`;
             window.open(mapUrl, "_blank");
         });
+
         actions.appendChild(detailBtn);
 
-        // '찜' 버튼 생성 및 설정
+        const listBtn = document.createElement("button");
+        listBtn.textContent = "리스트 담기";
+        actions.appendChild(listBtn);
+
+        const listImg = document.createElement("img");
+        listImg.src = "../image/cart.png";
+        listImg.alt = "리스트 담기";
+        listImg.classList.add("action-image");
+        listBtn.insertBefore(listImg, listBtn.firstChild);
+
         const likeBtn = document.createElement("button");
         likeBtn.innerHTML = "찜";
         actions.appendChild(likeBtn);
 
         const likeImg = document.createElement("img");
-        likeImg.src = "/img/love.png";
+        likeImg.src = "../image/heart.png";
         likeImg.alt = "찜";
         likeImg.classList.add("action-image");
         likeBtn.insertBefore(likeImg, likeBtn.firstChild)
@@ -373,7 +383,6 @@ function renderRestaurantInfo(restaurants) {
         infoBox.appendChild(restaurantInfo);
     });
 }
-
 
 // 페이지 로드 시 지도 초기화
 window.onload = initMap;

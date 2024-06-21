@@ -357,12 +357,29 @@ function renderRestaurantInfo(restaurants) {
         });
         actions.appendChild(detailBtn);
 
+        // const listBtn = document.createElement("button");
+        // listBtn.textContent = "리스트 담기";
+        // actions.appendChild(listBtn);
+        //
+        // const listImg = document.createElement("img");
+        // listImg.src = "../image/cart.png";
+        // listImg.alt = "리스트 담기";
+        // listImg.classList.add("action-image");
+        // listBtn.insertBefore(listImg, listBtn.firstChild);
+
+
         const likeBtn = document.createElement("button");
-        likeBtn.innerHTML = "찜";
-        actions.appendChild(likeBtn);
+        likeBtn.textContent = "찜";
+        likeBtn.addEventListener('click', () => {
+            try {
+                saveRestaurantToFavorites(placeDetails);
+            } catch (error) {
+                console.error('Error calling saveRestaurantToFavorites:', error);
+            }
+        });
 
         const likeImg = document.createElement("img");
-        likeImg.src = "/img/love.png";
+        likeImg.src = "../image/heart.png";
         likeImg.alt = "찜";
         likeImg.classList.add("action-image");
         likeBtn.insertBefore(likeImg, likeBtn.firstChild)
@@ -372,21 +389,64 @@ function renderRestaurantInfo(restaurants) {
         infoBox.appendChild(restaurantInfo);
     });
 }
+function saveRestaurantToFavorites(placeDetails) {
+    const restaurant = {
+        place_id: placeDetails.place_id,
+        name: placeDetails.name,
+        formattedPhoneNumber: placeDetails.formatted_phone_number,
+        rating: placeDetails.rating,
+        photoUrl: placeDetails.photos ? placeDetails.photos[0].getUrl({ maxWidth: 80, maxHeight: 80 }) : null
+    };
 
-function redirectToPage1() {
-    window.location.href = "/Main";
+    fetch('/api/saveRestaurantToFavorites', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(restaurant)
+    })
+        .then(response => response.text())
+        .then(text => {
+            try {
+                const data = JSON.parse(text);
+                alert('찜 목록에 저장되었습니다!');
+            } catch (error) {
+                console.error('Invalid JSON:', text);
+            }
+        })
+}
+document.querySelectorAll('.favorite-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        const restaurantData = {
+            place_id: this.dataset.place_id,
+            name: this.dataset.name,
+            vicinity: this.dataset.vicinity,
+            formattedPhoneNumber: this.dataset.formattedPhoneNumber,
+            rating: parseFloat(this.dataset.rating),
+            userRatingsTotal: parseInt(this.dataset.userRatingsTotal),
+            photoUrl: this.dataset.photoUrl
+        };
+
+        fetch('/restaurants/favorites', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(restaurantData),
+            credentials: 'include'  // 자격 증명 포함 (필요한 경우)
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+    });
+});
+
+function redirectToPage2() {
+    window.location.href = '../HTML/Restaurant_Weather.html';
 }
 
 function redirectToPage3() {
-    window.location.href = "/Restaurant_Weather";
-}
-
-function redirectToPage4() {
-    window.location.href = "/Tour_att";
-}
-
-function redirectToPage5() {
-    window.location.href = "/MyPage";
+    window.location.href = '../HTML/Tour_att.html';
 }
 
 // 페이지 로드 시 지도 초기화
