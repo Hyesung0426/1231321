@@ -10,7 +10,6 @@
     <groupId>org.Team2Project</groupId>
     <artifactId>CameAlone</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
     <name>CameAlone</name>
     <description>CameAlone</description>
     <properties>
